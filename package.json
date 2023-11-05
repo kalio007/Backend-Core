@@ -5,7 +5,12 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "migrate-up": "sequelize db:migrate",
+    "migrate-down": "sequelize db:migrate:undo:all",
+    "migrate-down-up": "sequelize db:migrate:undo:all && sequelize db:migrate",
+    "seed": "sequelize db:seed:all",
+    "undo-seed": "sequelize db:seed:undo:all"
   },
   "keywords": [],
   "author": "",
