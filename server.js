@@ -4,11 +4,13 @@ const app = express()
 const cors = require('cors');
 const port = process.env.PORT || 3000
 const routes = require('./routes/index')
+const cookieParser = require("cookie-parser");
 const db = require('./models')
 
-app.use(express.json())
-app.use(cors())
-app.use('/api', routes)
+app.use(express.json());
+app.use(cookieParser());
+app.use(cors());
+app.use('/api', routes);
 app.use(express.urlencoded({ extended: true }));
 
 (async () => {

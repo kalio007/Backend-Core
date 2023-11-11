@@ -14,6 +14,13 @@ exports.login = async (req, res, next) => {
     try {
         const user = await User.findOne({ where: { username: username } })
         if (!user) {
+            const maxAge = 3 * 60 * 60;
+            const token = jwt.sign(
+                { id: user.id, username: user.username },
+                jwtSecret,
+                { expiresIn: maxAge }
+            );
+            res.cookie("jwt", token, { httpOnly: true, expiresIn: maxAge * 1000 });
             res.status(400).json({
                 message: "Login not successful",
                 error: "User not found",
