@@ -4,24 +4,24 @@ const jwt = require('jsonwebtoken')
 const jwtSecret = process.env.JWT_SECRET || jwt.secret
 
 exports.register = async (req, res, next) => {
-    const { username, password, role } = req.body
+    const { email, password, } = req.body
     if (password.length < 6) {
         return res.status(400).json({ message: "Password less than 6 characters" })
     }
-    const existingUser = await User.findOne({ where: { username } });
+    const existingUser = await User.findOne({ where: { email } });
 
     if (existingUser) {
         return res.status(400).json({ message: "Username is already in use" });
     }
     bcrypt.hash(password, 10).then(async (hash) => {
         await User.create({
-            username: username,
+            email: email,
             password: hash,
         })
             .then((user) => {
                 const maxAge = 3 * 60 * 60;
                 const token = jwt.sign(
-                    { id: user.id, username: user.username },
+                    { id: user.id, email: user.email },
                     jwtSecret,
                     { expiresIn: maxAge }
                 );
@@ -31,6 +31,7 @@ exports.register = async (req, res, next) => {
                     user,
                     token: token,
                 })
+                // return user;
             })
             .catch((error) =>
                 res.status(400).json({

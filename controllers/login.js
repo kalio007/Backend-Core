@@ -4,15 +4,15 @@ const jwt = require('jsonwebtoken')
 const jwtSecret = process.env.JWT_SECRET || jwt.secret
 
 exports.login = async (req, res, next) => {
-    const { username, password } = req.body
+    const { email, password, } = req.body
     // Check if username and password is provided
-    if (!username || !password) {
+    if (!email || !password) {
         return res.status(400).json({
             message: "Username or Password not present",
         })
     }
     try {
-        const user = await User.findOne({ where: { username: username } })
+        const user = await User.findOne({ where: { email: email } })
         if (!user) {
             res.status(400).json({
                 message: "Login not successful",
@@ -24,7 +24,7 @@ exports.login = async (req, res, next) => {
                 if (result) {
                     const maxAge = 3 * 60 * 60;
                     const token = jwt.sign(
-                        { id: user.id, username: user.username },
+                        { id: user.id, email: user.email },
                         jwtSecret,
                         { expiresIn: maxAge }
                     );

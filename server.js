@@ -14,7 +14,7 @@ app.use('/api', routes);
 app.use(express.urlencoded({ extended: true }));
 
 (async () => {
-    await db.sequelize.sync({ force: true });
+    await db.sequelize.sync();
     console.log("All models were synchronized successfully.");
 })();
 

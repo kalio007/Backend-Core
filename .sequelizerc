@@ -8,3 +8,4 @@ module.exports = {
     'seeders-path': path.resolve("./seeders"),
     'migrations-path': path.resolve('migrations')
 };
+//Chore: check the path to know if its correct
