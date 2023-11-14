@@ -3,22 +3,23 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Tokens', {
-      userId: {
-        type: Sequelize.INTEGER,
+      id: {
         allowNull: false,
-        references: {
-          model: 'Users',
-          key: "id",
-        },
+        autoIncrement: true,
         primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      email: {
+        type: Sequelize.STRING
+      },
+      expiration: {
+        type: Sequelize.STRING
       },
       token: {
-        type: Sequelize.STRING,
-        allowNull: false,
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
-        defaultValue: Sequelize.NOW,
         type: Sequelize.DATE
       },
       updatedAt: {

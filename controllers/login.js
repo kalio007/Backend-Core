@@ -28,7 +28,7 @@ exports.login = async (req, res, next) => {
                         jwtSecret,
                         { expiresIn: maxAge }
                     );
-                    res.cookie("jwt", token, { httpOnly: true, expiresIn: maxAge * 1000 });
+                    // res.cookie("jwt", token, { httpOnly: true, expiresIn: maxAge * 1000 });
                     res.status(200).json({
                         message: "Login successful",
                         user,
