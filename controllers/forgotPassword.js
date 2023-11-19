@@ -4,16 +4,16 @@ const { Token } = require("../models");
 const sendEmail = require("../utils/sendEmail");
 const jwtSecret = process.env.JWT_SECRET || jwt.secret
 const crypto = require("crypto");
+require('dotenv').config();
 
-
-exports.forgetPasswood = async (req, res, next) => {
+exports.forgotPassword = async (req, res, next) => {
     const { email } = req.body;
     let existingUser = await User.findOne({ where: { email } })
     if (!existingUser) {
         return res.status(400).json({ message: "user not found" });
     }
     if (existingUser) {
-        await Token.destory({
+        await Token.destroy({
             where: { email },
         })
     }

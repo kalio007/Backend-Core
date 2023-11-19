@@ -4,7 +4,12 @@ const jwt = require('jsonwebtoken')
 const jwtSecret = process.env.JWT_SECRET || jwt.secret
 
 exports.register = async (req, res, next) => {
+    //to improve performance and enusre the sever doesnt crash when it doesnt get the required input
+    //CHORE: read more on handle such scenarios  
     const { firstName, lastName, email, password } = req.body
+    if (!firstName || !lastName || !email || !password) {
+        return res.status(400).json({ message: "incorrect input" })
+    }
     if (password.length < 6) {
         return res.status(400).json({ message: "Password less than 6 characters" })
     }
@@ -28,7 +33,7 @@ exports.register = async (req, res, next) => {
                     jwtSecret,
                     { expiresIn: maxAge }
                 );
-                // res.cookie("jwt", token, { httpOnly: true, expiresIn: maxAge * 1000 });
+                res.cookie("jwt", token, { httpOnly: true, expiresIn: maxAge * 1000 });
                 res.status(200).json({
                     message: "User successfully created",
                     user,
